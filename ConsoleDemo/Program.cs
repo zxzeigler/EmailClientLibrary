@@ -13,7 +13,7 @@ internal class Program
         ecTest.CreateEmail("Remember to drink water", bodyBlock, "abraham96@ethereal.email");
         ecTest.SendEmail();
 
-        ecTest.UpdateRecipient("zpage3@hotmail.com");
+        ecTest.UpdateRecipient("someone@gmail.com");
         ecTest.SendEmail();
     }
 }

@@ -5,7 +5,9 @@ VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailClient", "EmailClient.csproj", "{8E041DAD-00BE-4480-975C-640B9981E3BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleDemo", "..\ConsoleDemo\ConsoleDemo.csproj", "{1FEC96BF-3F13-4C65-9E5B-8C54F7C63273}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleDemo", "..\ConsoleDemo\ConsoleDemo.csproj", "{1FEC96BF-3F13-4C65-9E5B-8C54F7C63273}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailClientAPI", "..\EmailClientAPI\EmailClientAPI.csproj", "{8F46506C-2C30-4A6D-8333-F447A84DF249}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{1FEC96BF-3F13-4C65-9E5B-8C54F7C63273}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FEC96BF-3F13-4C65-9E5B-8C54F7C63273}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FEC96BF-3F13-4C65-9E5B-8C54F7C63273}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F46506C-2C30-4A6D-8333-F447A84DF249}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F46506C-2C30-4A6D-8333-F447A84DF249}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F46506C-2C30-4A6D-8333-F447A84DF249}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F46506C-2C30-4A6D-8333-F447A84DF249}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
