@@ -27,3 +27,12 @@ To use the API for demo recomended to build requests using swagger
 Copy request URL from swagger and change https to http and update listening port
 
 NOTE: When sending request in postman "Enable SSL certificate verification" setting must be disabled.
+
+
+Credit to Knowledge Sources:
+    https://www.youtube.com/watch?v=J0EVd5HbtUY
+    https://www.youtube.com/watch?v=PvO_1T0FS_A
+    https://www.youtube.com/watch?v=9v6RENPk5iM
+    https://www.youtube.com/watch?v=KB3FVgGpZbk
+    https://www.youtube.com/watch?v=5tYSO5mAjXs
+    https://www.youtube.com/watch?v=eRJFNGIsJEo
