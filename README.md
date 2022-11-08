@@ -1,11 +1,11 @@
 # EmailClient
 
-##To Use Demo Applications:
+## To Use Demo Applications:
 
 After download create new Solution.
 In solution add each existing project.
 
-(NOTE: EmailClient must be added to solution and compiled before Console and API applications can add reference for EmailClient DLL)
+**NOTE:** EmailClient must be added to solution and compiled before Console and API applications can add reference for EmailClient DLL)
 After all projects have been added right-click Console and API projects: 
     Select Add -> Project Reference -> Check EmailClient -> Click "OK"
     
@@ -26,10 +26,10 @@ Recommended update:
 To use the API for demo recomended to build requests using swagger
 Copy request URL from swagger and change https to http and update listening port
 
-NOTE: When sending request in postman "Enable SSL certificate verification" setting must be disabled.
+**NOTE:** When sending request in postman "Enable SSL certificate verification" setting must be disabled.
 
 
-###Credit to Knowledge Sources:
+### Credit to Knowledge Sources:
 * https://www.youtube.com/watch?v=J0EVd5HbtUY
 * https://www.youtube.com/watch?v=PvO_1T0FS_A
 * https://www.youtube.com/watch?v=9v6RENPk5iM
