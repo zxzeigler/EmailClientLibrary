@@ -110,12 +110,13 @@ namespace EmailClientLibrary
         /// <returns></returns>
         public string SendEmail()
         {
-            SmtpClient client = new SmtpClient();
+            SmtpClient client;
             string result = "";
             bool sent= false;
             int attempt = 0;
             while (attempt < send_attempt_limit)
             {
+                client = new SmtpClient();
                 int current = attempt;
                 try
                 {
