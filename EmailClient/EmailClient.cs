@@ -7,6 +7,8 @@ using MailKit.Security;
 using System.Security.Authentication.ExtendedProtection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using System.IO;
+using System.Text.Json;
 
 namespace EmailClientLibrary
 {
@@ -20,6 +22,10 @@ namespace EmailClientLibrary
         private string sender_name;
         private int send_attempt_limit;
         private int send_retry_delay;
+        private string log_path;
+        private string log_prefix;
+        private string log_file_suffix;
+
         private MimeMessage? message;
 
         public EmailClient()
@@ -43,6 +49,9 @@ namespace EmailClientLibrary
                 sender_name = config["Sender_Name"];
                 send_attempt_limit = Int32.Parse(config["Send_Attempt_Count"]);
                 send_retry_delay = Int32.Parse(config["Resend_Delay_Milliseconds"]);
+                log_path = config["Log_File_Path"];
+                log_prefix = config["Log_File_Prefix"];
+                log_file_suffix = config["Log_File_Suffix"];
             }
             catch (Exception)
             {
@@ -119,7 +128,7 @@ namespace EmailClientLibrary
                 message.To.ToString(),
                 message.Subject.ToString(),
                 message.Body.ToString(),
-                DateTime.Now,
+                DateTime.Now.ToString("yyyy_MM_dd"),
                 Sent
             );
 
@@ -130,8 +139,14 @@ namespace EmailClientLibrary
 
         private void LogInfo(EmailInfo email_info)
         {
-            
-            
+            string log_file_assembled_path = (log_path + log_prefix + email_info.Date_of_Send_Attempt + log_file_suffix);
+            var data = JsonSerializer.Serialize(email_info);
+
+            using (FileStream fiStream = new FileStream(log_file_assembled_path, FileMode.Append, FileAccess.Write))
+            using (StreamWriter writer = new StreamWriter(fiStream))
+            {
+                writer.WriteLine(data.ToString());
+            }
         }
     }
 }

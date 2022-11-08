@@ -12,6 +12,6 @@ namespace EmailClientLibrary
         string recipient_email, 
         string subject,
         string body,
-        DateTime Date_of_Send_Attempt,
+        string Date_of_Send_Attempt,
         bool Sent_Status);
 }
