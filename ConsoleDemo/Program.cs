@@ -10,7 +10,7 @@ internal class Program
         String bodyBlock = "Drinking water is really important.\n" +
             "The average person can only go 72 hours at most without water.";
 
-        ecTest.CreateEmail("Remember to drink water", bodyBlock, "abraham96@ethereal.email");
+        ecTest.CreateEmail("Remember to drink water", bodyBlock, "janae9@ethereal.email");
         ecTest.SendEmail();
 
         ecTest.UpdateRecipient("someone@gmail.com");

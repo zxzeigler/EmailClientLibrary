@@ -4,17 +4,17 @@
     {
         public static void ConfigureApi(this WebApplication app)
         {
-            app.MapPut("/CreateEmail", CreateEmail);
-            app.MapPut("/UpdateRecipient", UpdateRecipient);
-            app.MapPost("SendEmail", SendEmail);
+            app.MapPut("/createemail", CreateEmail);
+            app.MapPut("/updaterecipient", UpdateRecipient);
+            app.MapPost("/sendemail", SendEmail);
         }
 
         private static async Task<IResult> CreateEmail(EmailClient ec, string subject, string body, string recipient)
         {
             try
             {
-                //await ec.CreateEmail(subject, body, recipient);
-                return Results.Ok();
+                String message = ec.CreateEmail(subject, body, recipient);
+                return Results.Ok(message);
             }
             catch (Exception ex)
             {
@@ -26,8 +26,8 @@
         {
             try
             {
-                //await ec.UpdateRecipient(recipient);
-                return Results.Ok();
+                ec.UpdateRecipient(recipient);
+                return Results.Ok(recipient);
             }
             catch (Exception ex)
             {
@@ -39,8 +39,8 @@
         {
             try
             {
-                //await ec.SendEmail();
-                return Results.Ok();
+                String result = ec.SendEmail();
+                return Results.Ok(result);
             }
             catch (Exception ex)
             {

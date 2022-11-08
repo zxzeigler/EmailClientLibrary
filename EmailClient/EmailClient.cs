@@ -69,11 +69,12 @@ namespace EmailClientLibrary
         /// <summary>
         /// builds mime message to be sent by client
         /// Initializes message effectivly clearing any previous message
+        /// Returns the message flattened to single string
         /// </summary>
         /// <param name="subject"></param>
         /// <param name="body"></param>
         /// <param name="recipient_address"></param>
-        public void CreateEmail(string subject, string body, string recipient_address)
+        public string CreateEmail(string subject, string body, string recipient_address)
         {
             message = new MimeMessage();
             message.From.Add(new MailboxAddress(sender_name, smtp_username));
@@ -84,30 +85,34 @@ namespace EmailClientLibrary
             {
                 Text = @body
             };
+            return message.ToString();
         }
 
         /// <summary>
         /// Updates only message recipient, message subject and body are retained for sending to new recipient
+        /// Returns recipient address of mesage object for verification
         /// </summary>
         /// <param name="recipient_address"></param>
-        public void UpdateRecipient(string recipient_address)
+        public string UpdateRecipient(string recipient_address)
         {
             if (message != null)
             {
                 message.To.Clear();
                 message.To.Add(MailboxAddress.Parse(recipient_address));
             }
+            return message.To.ToString();
         }
 
         /// <summary>
         /// executes sending of message
-        /// boolean return on success/fail for optional use outside of class
+        /// returns result string code of MailKit send method
         /// </summary>
         /// <returns></returns>
-        public bool SendEmail()
+        public string SendEmail()
         {
             SmtpClient client = new SmtpClient();
-            bool Sent = false;
+            string result = "";
+            bool sent= false;
             int attempt = 0;
             while (attempt < send_attempt_limit)
             {
@@ -124,21 +129,20 @@ namespace EmailClientLibrary
                         client.Connect(smtp_host, smtp_port, false);
                     }
                     client.Authenticate(smtp_username, smtp_password);
-                    client.Send(message);
-                    Sent = true;
+                    result = client.Send(message);
+                    sent = true;
                 }
                 catch (Exception ex)
                 {
                     attempt = current + 1;
-                    Sent = false;
                     Thread.Sleep(send_retry_delay);
+                    sent = false;
                 }
                 finally
                 {
                     client.Disconnect(true);
                     client.Dispose();
                 }
-                
             }
 
             EmailInfo email_Log_Data = new EmailInfo(
@@ -147,12 +151,12 @@ namespace EmailClientLibrary
                 message.Subject.ToString(),
                 message.Body.ToString(),
                 DateTime.Now.ToString("yyyy_MM_dd"),
-                Sent
+                sent
             );
 
             LogInfo(email_Log_Data);
 
-            return Sent;
+            return result;
         }
 
         /// <summary>
