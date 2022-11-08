@@ -7,8 +7,6 @@ internal class Program
         Console.WriteLine("Test DLL");
         EmailClient ecTest = new EmailClient();
 
-        Console.WriteLine(ecTest.getTestVars());
-
         Console.WriteLine(ecTest.TestSendEmail());
     }
 }

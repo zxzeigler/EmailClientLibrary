@@ -16,10 +16,12 @@ namespace EmailClientLibrary
         private int smtp_port;
         private string smtp_username;
         private string smtp_password;
-        private string smtp_sender_name;
+        private string sender_name;
 
-        private string recipient_email;
-        private string recipient_name;
+        private string recipient_email = "";
+        private string recipient_name = "";
+
+        private int Send_Attempt_Limit;
         private MimeMessage? message { get; set; }
         //private static var serviceCollection = new ServiceCollection();
 
@@ -34,7 +36,8 @@ namespace EmailClientLibrary
                 smtp_port = Int32.Parse(config["Port"]);
                 smtp_username = config["Username"];
                 smtp_password = config["Password"];
-                smtp_sender_name = config["Sender_Name"];
+                sender_name = config["Sender_Name"];
+                Send_Attempt_Limit = Int32.Parse(config["Send_Attempt_Count"]);
             }
             catch(Exception)
             {
@@ -82,11 +85,11 @@ namespace EmailClientLibrary
             return log;
         }
 
-        //builds mime message
+        //builds mime message to be sent by client
         public void CreateEmail(string subject, string body, string recipient)
         {
             message = new MimeMessage();
-            message.From.Add(new MailboxAddress(smtp_sender_name, smtp_username));
+            message.From.Add(new MailboxAddress(sender_name, smtp_username));
             message.To.Add(MailboxAddress.Parse(recipient));
             message.Subject = subject;
 
@@ -96,28 +99,36 @@ namespace EmailClientLibrary
             };
         }
 
-        public void SendEmail()
+        //executes sending of message
+        public bool SendEmail()
         {
             SmtpClient client = new SmtpClient();
-
-            try
+            bool Sent = false;
+            int attempt = 0;
+            while (attempt < Send_Attempt_Limit)
             {
-                client.Connect("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
-                client.Authenticate("margret76@ethereal.email", "u5aTHzneNVSzfSXapp");
-                Console.WriteLine("Just tried login");
-                client.Send(message);
-                Console.WriteLine("Just tried send " + message.Body.ToString());
+                int current = attempt;
+                try
+                {
+                    attempt = Send_Attempt_Limit + 1;
+                    client.Connect(smtp_host, smtp_port, SecureSocketOptions.StartTls);
+                    client.Authenticate(smtp_username, smtp_password);
+                    client.Send(message);
+                    Sent = true;
+                }
+                catch (Exception ex)
+                {
+                    attempt = current + 1;
+                    Sent = false;
+                }
+                finally
+                {
+                    client.Disconnect(true);
+                    client.Dispose();
+                }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                client.Disconnect(true);
-                client.Dispose();
-                Console.WriteLine("Complete");
-            }
+            //Add Logging of Sent result
+            return Sent;
         }
 
         public void SetRecipient(string recipient_name, string recipient_email_address)
