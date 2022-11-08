@@ -33,6 +33,11 @@ namespace EmailClientLibrary
             InitializeClientParameters();
         }
 
+        /// <summary>
+        /// Initializes properties of the EmailClient from appsettings.json
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool InitializeClientParameters()
         {
             bool client_Initialized = true;
@@ -61,7 +66,13 @@ namespace EmailClientLibrary
             return client_Initialized;
         }
 
-        //builds mime message to be sent by client
+        /// <summary>
+        /// builds mime message to be sent by client
+        /// Initializes message effectivly clearing any previous message
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="body"></param>
+        /// <param name="recipient_address"></param>
         public void CreateEmail(string subject, string body, string recipient_address)
         {
             message = new MimeMessage();
@@ -75,6 +86,10 @@ namespace EmailClientLibrary
             };
         }
 
+        /// <summary>
+        /// Updates only message recipient, message subject and body are retained for sending to new recipient
+        /// </summary>
+        /// <param name="recipient_address"></param>
         public void UpdateRecipient(string recipient_address)
         {
             if (message != null)
@@ -84,8 +99,11 @@ namespace EmailClientLibrary
             }
         }
 
-        //executes sending of message
-        //added boolean return on success/fail for additional use cases
+        /// <summary>
+        /// executes sending of message
+        /// boolean return on success/fail for optional use outside of class
+        /// </summary>
+        /// <returns></returns>
         public bool SendEmail()
         {
             SmtpClient client = new SmtpClient();
@@ -122,7 +140,7 @@ namespace EmailClientLibrary
                 }
                 
             }
-            //Add Logging of Sent result
+
             EmailInfo email_Log_Data = new EmailInfo(
                 smtp_username,
                 message.To.ToString(),
@@ -137,6 +155,12 @@ namespace EmailClientLibrary
             return Sent;
         }
 
+        /// <summary>
+        /// Serializes passed record to json
+        /// Logs json to file specified by appsettings
+        /// Creates file if does not exist
+        /// </summary>
+        /// <param name="email_info"></param>
         private void LogInfo(EmailInfo email_info)
         {
             string log_file_assembled_path = (log_path + log_prefix + email_info.Date_of_Send_Attempt + log_file_suffix);
